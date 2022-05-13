@@ -3,6 +3,9 @@
 :root {
     --cor-header: #0000ff;
     --cor-text-white: #fff;
+    --cor-label: #cc99;
+    --cor-card: #0288d1;
+    
 }
 
 * {
@@ -50,4 +53,46 @@ nav h1{
 nav a {
     font-size: 12px;
     font-weight: 400;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+.container-full{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--cor-text-white);
+    background-color: var(--cor-card);
+    margin: 50px 0;
+    height: 270px;
+    width: 270px;
+}
+
+.container-full h5{
+    display: flex;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container-input{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.container-input label{
+    font-size: 10px;
+}
+
+.container-input input{
+    text-align: center;
+}
+
+.container-full button{
+    background-color: var(--cor-text-white);
+    width: 110px;
 }
