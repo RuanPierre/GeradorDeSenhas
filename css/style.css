@@ -14,7 +14,7 @@
 }
 
 header {
-    height: 85px;
+    height: 60px;
     background-color: var(--cor-header);
     color: var(--cor-text-white);
     display: flex;
@@ -42,22 +42,21 @@ nav h1{
     margin: 0;
 }
 
-#txt-de{
+
+#txt-senhas{
     margin-left: 26px;
 }
 
-#txt-senhas{
-    margin-left: 15px;
-}
-
 nav a {
-    font-size: 12px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .container-full{
@@ -67,32 +66,58 @@ main {
     align-items: center;
     color: var(--cor-text-white);
     background-color: var(--cor-card);
-    margin: 50px 0;
-    height: 270px;
-    width: 270px;
+    margin: 50px 0 25px 0;
+    height: 400px;
+    width: 400px;
+    border-radius: 5px;
 }
 
-.container-full h5{
-    display: flex;
+.container-full h3{
     text-align: center;
+    font-size: 25px;
+    font-weight: 400;
     margin-top: 20px;
 }
 
 .container-input{
     display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items: center;
     width: 100%;
 }
 
 .container-input label{
-    font-size: 10px;
+    font-size: 15px;
 }
 
 .container-input input{
     text-align: center;
+    height: 40px;
+    width: 350px;
+    font-size: 15px;
+    border-radius: 4px;
+    border: 0;
 }
 
 .container-full button{
     background-color: var(--cor-text-white);
-    width: 110px;
+    font-size: 20px;
+    font-weight: 400;
+    height: 50px;
+    width: 120px;
+    margin-bottom: 64px;
+}
+
+.container-full button:hover{
+    color: var(--cor-text-white);
+    background-color: var(--cor-card);
+    border-color: var(--cor-text-white);
+}
+
+main h2{
+    color: var(--cor-card);
+    font-size: 25px;
+    font-weight: 700;
+    margin-top: 12px;
 }

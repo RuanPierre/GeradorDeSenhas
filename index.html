@@ -12,8 +12,7 @@
     <header>
         <nav class= "container">
             <div>
-            <h1>Gerador</h1>
-            <h1 id="txt-de">de</h1>
+            <h1>Gerador de</h1>
             <h1 id="txt-senhas">Senhas</h1>
             </div>
             <div class="container-contato">
@@ -24,16 +23,18 @@
     </header>
     <main>
         <div class="container  container-full">
-            <h5>Digite o número de caracteres da senha</h3>
+            <div id= "card-text">
+            <h3>Digite o número de caracteres da senha</h3>
+            </div>
             <div class="container-input">
                 <br>
                 <label class="label">Número de Caracteres</label>
-                <input id="input" class="input" type="number" placeholder="10(Recomendado)"> </input>
+                <input id="input" class="input" type="number" placeholder="10 (Recomendado)"> </input>
                 </br>
             </div>
-                <button id="btn" class="btn" type="submit" onclick="pegarTamanho()">Enviar</button>
-            <h2 id="resultado" class="resultado"></h2>
+                <button id="btn" class="btn" type="submit" onclick="pegarTamanho()">Gerar</button>
         </div>
+        <h2 id="resultado" class="resultado">SENHASENHA</h2>
     </main>
     
 </body>
