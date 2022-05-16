@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 :root {
-    --cor-header: #0000ff;
+    --cor1-bg: #0288d1;
+    --cor2-bg: #398fc9;
     --cor-text-white: #fff;
     --cor-label: #cc99;
-    --cor-card: #0288d1;
     
 }
 
@@ -15,7 +15,6 @@
 
 header {
     height: 60px;
-    background-color: var(--cor-header);
     color: var(--cor-text-white);
     display: flex;
     align-items: center;
@@ -32,8 +31,8 @@ a, a:hover{
     text-decoration: none;
     }
 
-html, body {
-    background-color: var(--cor-text-white);
+body {
+    background-image: linear-gradient(90deg, var(--cor1-bg), var(--cor2-bg), var(--cor1-bg));
 }
 
 nav h1{
@@ -55,8 +54,9 @@ nav a {
 main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content:flex-start;
     align-items: center;
+    height:565px;
 }
 
 .container-full{
@@ -65,11 +65,8 @@ main {
     justify-content: space-between;
     align-items: center;
     color: var(--cor-text-white);
-    background-color: var(--cor-card);
-    margin: 50px 0 25px 0;
     height: 400px;
-    width: 400px;
-    border-radius: 10px;
+    width: 300px;
 }
 
 .container-full h3{
@@ -94,7 +91,7 @@ main {
 .container-input input{
     text-align: center;
     height: 40px;
-    width: 350px;
+    width: 240px;
     font-size: 15px;
     border-radius: 4px;
     border: 0;
@@ -111,14 +108,14 @@ main {
 
 .container-full button:hover{
     color: var(--cor-text-white);
-    background-color: var(--cor-card);
+    background-color: unset;
     border-color: var(--cor-text-white);
 }
 
 main h2{
-    color: var(--cor-card);
+    color: var(--cor-text-white);
     text-align: center;
     font-size: 25px;
     font-weight: 700;
-    margin-top: 12px;
+
 }
