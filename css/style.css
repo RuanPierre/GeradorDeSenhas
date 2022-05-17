@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 :root {
-    --cor1-bg: #0288d1;
-    --cor2-bg: #398fc9;
     --cor-text-white: #fff;
     --cor-label: #cc99;
     
@@ -32,7 +30,7 @@ a, a:hover{
     }
 
 body {
-    background-image: linear-gradient(90deg, var(--cor1-bg), var(--cor2-bg), var(--cor1-bg));
+    background: linear-gradient(90deg, rgba(2,136,209,1) 0%, rgba(1,195,69,1) 100%);
 }
 
 nav h1{
@@ -41,8 +39,11 @@ nav h1{
     margin: 0;
 }
 
+#txt-1{
+    margin-top: 10px;
+}
 
-#txt-senhas{
+#txt-2{
     margin-left: 26px;
 }
 
@@ -65,8 +66,9 @@ main {
     justify-content: space-between;
     align-items: center;
     color: var(--cor-text-white);
-    height: 400px;
+    height: 350px;
     width: 300px;
+    margin-top: 30px;
 }
 
 .container-full h3{
@@ -74,6 +76,7 @@ main {
     font-size: 25px;
     font-weight: 400;
     margin-top: 20px;
+    margin-bottom: 0;
 }
 
 .container-input{
@@ -97,13 +100,13 @@ main {
     border: 0;
 }
 
-.container-full button{
+.btn{
     background-color: var(--cor-text-white);
     font-size: 20px;
     font-weight: 400;
     height: 50px;
     width: 120px;
-    margin-bottom: 64px;
+    margin-bottom: 40px;
 }
 
 .container-full button:hover{
@@ -117,5 +120,23 @@ main h2{
     text-align: center;
     font-size: 25px;
     font-weight: 700;
+}
 
+.div-resultado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-copy {
+    background-color: unset;
+    border: 0;
+    height: 50px;
+    width: 30px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+}
+
+#btn-copy img {
+    width: 100%;
 }

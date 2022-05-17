@@ -12,8 +12,8 @@
     <header>
         <nav class= "container">
             <div>
-            <h1>Gerador de</h1>
-            <h1 id="txt-senhas">Senhas</h1>
+            <h1 id="txt-1">Gerador de</h1>
+            <h1 id="txt-2">Senhas</h1>
             </div>
             <div class="container-contato">
             <img src="img/github.svg" alt="github">
@@ -28,15 +28,15 @@
             
             <div class="container-input">
                 <br>
-                <label class="label">Número de Caracteres</label>
+                <label id="label"class="label">Número de Caracteres</label>
                 <input id="input" class="input" type="number" placeholder="10 (Recomendado)"> </input>
                 </br>
             </div>
                 <button id="btn" class="btn" type="submit" onclick="pegarTamanho()">Gerar</button>
         </div>
-        <div>
-        <h2 id="resultado" class="resultado"></h2>
+        <div class="div-resultado" id="div-resultado">
         </div>
+        
     </main>
     <script src="js/script.js"></script>
 </body>

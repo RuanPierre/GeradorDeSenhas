@@ -14,12 +14,14 @@ function pegarTamanho() {
         var senha = formarSenha();
         exibirNaTela(senha);
       } else {
+        document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado"></h2>'
         document.getElementById("resultado").innerHTML =
           "Senha muito grande (Digite números menores que 100)";
       }
     } else {
+      document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado"></h2>'
       document.getElementById("resultado").innerHTML =
-        "Senha nula ou negativa (Digite números maiores que 0)";
+      "Senha nula ou negativa (Digite números maiores que 0)";
     }
   }
   
@@ -36,7 +38,7 @@ function pegarTamanho() {
             numeroSorteado = Math.floor(Math.random() * 89);
           }
           valor = valores[numeroSorteado];
-          console.log("teve & seguido de ; e foi trocado");
+          
         }
       }
   
@@ -49,9 +51,11 @@ function pegarTamanho() {
   function exibirNaTela(senha) {
     for (var k = 0; k < senha.length; k++) {
       if (senha[k] == "<") {
-        senha = senha.replace("<", "&lt;");
+        senha = senha.replace("<", "&#60;");
       }
     }
+    document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado"></h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
+    document.getElementById("resultado").value = senha;
     document.getElementById("resultado").innerHTML = senha;
   }
   
@@ -86,11 +90,21 @@ function pegarTamanho() {
       verLetraMai < numNec ||
       verChar < numNec
     ) {
-      console.log("Senha fraca trocada: " + senha);
-      senha = formarSenha();
+         senha = formarSenha();
     }
     return senha;
   }
+
+  async function copiar() {
+    try {
+      var senha = document.getElementById("resultado").value;
+      await navigator.clipboard.writeText(senha);
+      alert("Texto Copiado!")
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
+
   
   document.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
@@ -99,4 +113,3 @@ function pegarTamanho() {
       btn.click();
     }
   });
-  
