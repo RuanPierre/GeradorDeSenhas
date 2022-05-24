@@ -57,7 +57,7 @@ main {
     flex-direction: column;
     justify-content:flex-start;
     align-items: center;
-    height:565px;
+    height:100%;
 }
 
 .container-full{
@@ -115,11 +115,13 @@ main {
     border-color: var(--cor-text-white);
 }
 
-main h2{
+.resultado{
     color: var(--cor-text-white);
     text-align: center;
     font-size: 25px;
     font-weight: 700;
+    word-wrap: break-word;
+    float:none;
 }
 
 .div-resultado {

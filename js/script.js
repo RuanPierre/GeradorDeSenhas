@@ -14,18 +14,16 @@ function pegarTamanho() {
         var senha = formarSenha();
         exibirNaTela(senha);
       } else {
-        document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado"></h2>'
-        document.getElementById("resultado").innerHTML =
-          "Senha muito grande (Digite números menores que 100)";
+        document.getElementById("div-resultado").innerHTML=
+        '<h2 id="resultado" class="resultado">Senha muito grande (Digite números menores que 100)</h2>'
       }
     } else {
-      document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado"></h2>'
-      document.getElementById("resultado").innerHTML =
-      "Senha nula ou negativa (Digite números maiores que 0)";
+      document.getElementById("div-resultado").innerHTML=
+      '<h2 id="resultado" class="resultado">Senha nula ou negativa (Digite números maiores que 0)</h2>'
     }
   }
   
-  function formarSenha() {
+function formarSenha() {
     var senha = "";
 
     for (var i = 0; i < tamanho; i++) {
@@ -48,31 +46,22 @@ function pegarTamanho() {
     return senha;
   }
   
-  function exibirNaTela(senha) {
-    for (var k = 0; k < senha.length; k++) {
-      if (senha[k] == "<") {
-        senha = senha.replace("<", "&#60;");
-      }
-    }
-    document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado"></h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
-    document.getElementById("resultado").value = senha;
-    document.getElementById("resultado").innerHTML = senha;
-  }
-  
-  function verificador(senha) {
+function verificador(senha) {
     // Garantia de que irá ter ao menos um caractere de cada tipo, proporcionando uma senha mais segura //
   
     var verDigito = 0;
     var verLetraMin = 0;
     var verLetraMai = 0;
     var verChar = 0;
+
+    
     if (tamanho < 50) {
       var numNec = Math.floor(0.25 * tamanho);
     } else {
       var numNec = 12;
     }
   
-    for (var i = 0; i < senha.length; i++) {
+    for (var i = 0; i < tamanho; i++) {
       if (digitos.indexOf(senha[i]) >= 0) {
         verDigito += 1;
       } else if (letras_min.indexOf(senha[i]) >= 0) {
@@ -85,24 +74,96 @@ function pegarTamanho() {
     }
   
     if (
-      verDigito < numNec ||
-      verLetraMin < numNec ||
-      verLetraMai < numNec ||
-      verChar < numNec
-    ) {
+      verDigito < numNec || verLetraMin < numNec || verLetraMai < numNec || verChar < numNec) {
          senha = formarSenha();
     }
+
     return senha;
   }
 
-  async function copiar() {
+function exibirNaTela(senha) {
+    var senha1 = "";
+    var valorDivisao = 50;
+
+    senha = ajustarSenha(senha, "exibir");
+
+    if (tamanho > 50){
+      // Se a senha tem mais de 50 caracteres só são mostrados os primeiros 50 caracteres
+
+      if (senha.indexOf("&#60;")){
+      valorDivisao = definirValorDivisao(senha);
+      }
+
+      for(var i = 0; i < valorDivisao; i++){
+        senha1 += senha[i];
+        console.log(senha[i]);
+      }
+      
+      document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado">' + senha1 + 
+      ' (...)</h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
+      document.getElementById("resultado").value = senha;
+      console.log(senha1)
+      }
+    else {
+    document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado">' + senha 
+    + '</h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
+    document.getElementById("resultado").value = senha;
+    }
+  }
+
+async function copiar() {
     try {
       var senha = document.getElementById("resultado").value;
+      senha = ajustarSenha(senha, "copiar");
       await navigator.clipboard.writeText(senha);
       alert("Texto Copiado!")
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
+  }
+
+function ajustarSenha(senha, tipoDaFuncao) {
+
+    if (tipoDaFuncao == "exibir") {
+      for (var i = 0; i < tamanho; i++) {
+        if (senha[i] == "<") {
+          senha = senha.replace("<", "&#60;");
+        }
+      }
+    }
+    else if (tipoDaFuncao == "copiar"){
+      console.log(senha)
+      for (var i = 0; i < tamanho-4; i++) {
+        if (senha[i] == "&" && senha[i+1] == "#" && senha[i+2] == "6" && 
+          senha[i+3] == "0" && senha[i+4] == ";") {
+          senha = senha.replace("&#60;", "<");
+        }
+      }
+    }
+
+      return senha
+  }
+
+  function definirValorDivisao(senha){
+
+    // Se é encontrado o símbolo "&#60;" a borda da divisao aumenta em 4
+    // para incluir todos esses caracteres e formar o simbolo "<" 
+    // Por exemplo se esse simbolo estiver na posição 0, 1, 2, 3, e 4
+    // o simbolo "<" vai fazer com que a frase fique com 46 letras ao invés de 50
+    // Então é adicionado mais 4 espaços para letras 
+
+    var valorDivisao = 50;
+    var indexDivisao = 50;
+
+      for (var i = 0; i < indexDivisao-4; i++){
+
+        if (senha[i] == "&" && senha[i+1] == "#" && senha[i+2] == "6" && 
+        senha[i+3] == "0" && senha[i+4] == ";") {
+          indexDivisao += 4;
+          valorDivisao += 4;
+        }
+      }
+    return valorDivisao;
   }
 
   
@@ -113,3 +174,5 @@ function pegarTamanho() {
       btn.click();
     }
   });
+
+       
