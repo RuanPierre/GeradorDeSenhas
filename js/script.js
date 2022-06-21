@@ -1,18 +1,12 @@
 function pegarTamanho() {
-    tamanho = parseInt(document.getElementById("input").value);
+
+    let tamanho = parseInt(document.getElementById("input").value);
     document.getElementById("input").value = "";
-  
-    digitos = "0123456789";
-    letras_min = "aãbcçdefghijklmnopqrstuvwxyz";
-    letras_mai = "AÃBCÇDEFGHIJKLMNOPQRSTUVWXYZ";
-    caracteres_esp = "!#$%&*+,-./:;<=>?@^_`|~";
-  
-    valores = digitos + letras_min + letras_mai + caracteres_esp;
   
     if (tamanho >= 1) {
       if (tamanho <= 100) {
-        var senha = formarSenha();
-        exibirNaTela(senha);
+        let senha = formarSenha(tamanho);
+        exibirNaTela(senha, senha.length);
       } else {
         document.getElementById("div-resultado").innerHTML=
         '<h2 id="resultado" class="resultado">Senha muito grande (Digite números menores que 100)</h2>'
@@ -23,12 +17,15 @@ function pegarTamanho() {
     }
   }
   
-function formarSenha() {
-    var senha = "";
+const formarSenha = (tamanho) => {
+
+    const valores = "0123456789aãbcçdefghijklmnopqrstuvwxyzAÃBCÇDEFGHIJKLMNOPQRSTUVWXYZ!#$%&*+,-./:;<=>?@^_`|~";
+    let senha = "";
+    let numeroSorteado, valor;
 
     for (var i = 0; i < tamanho; i++) {
-      var numeroSorteado = Math.floor(Math.random() * 89);
-      var valor = valores[numeroSorteado];
+      numeroSorteado = Math.floor(Math.random() * 89);
+      valor = valores[numeroSorteado];
   
       if (valor == ";") {
         if (senha.indexOf("&") >= 0) {
@@ -42,67 +39,66 @@ function formarSenha() {
   
       senha += valor;
     }
-    senha = verificador(senha);
+    senha = verificador(senha, senha.length);
     return senha;
   }
   
-function verificador(senha) {
+const verificador = (senha, tamanho) => {
     // Garantia de que irá ter ao menos um caractere de cada tipo, proporcionando uma senha mais segura //
-  
-    var verDigito = 0;
-    var verLetraMin = 0;
-    var verLetraMai = 0;
-    var verChar = 0;
+
+    const digitos = "0123456789";
+    const letras_min = "aãbcçdefghijklmnopqrstuvwxyz";
+    const letras_mai = "AÃBCÇDEFGHIJKLMNOPQRSTUVWXYZ";
+    const caracteres_esp = "!#$%&*+,-./:;<=>?@^_`|~"; 
+    let quantDigitos, quantLetrasMin, quantLetrasMai, quantChar, numNecessario = 0;
 
     
     if (tamanho < 50) {
-      var numNec = Math.floor(0.25 * tamanho);
+      numNecessario = Math.floor(0.25 * tamanho);
     } else {
-      var numNec = 12;
+      numNecessario = 12;
     }
   
     for (var i = 0; i < tamanho; i++) {
       if (digitos.indexOf(senha[i]) >= 0) {
-        verDigito += 1;
+        quantDigitos += 1;
       } else if (letras_min.indexOf(senha[i]) >= 0) {
-        verLetraMin += 1;
+        quantLetrasMin += 1;
       } else if (letras_mai.indexOf(senha[i]) >= 0) {
-        verLetraMai += 1;
+        quantLetrasMai += 1;
       } else if (caracteres_esp.indexOf(senha[i]) >= 0) {
-        verChar += 1;
+        quantChar += 1;
       }
     }
   
     if (
-      verDigito < numNec || verLetraMin < numNec || verLetraMai < numNec || verChar < numNec) {
-         senha = formarSenha();
+      quantDigitos < numNecessario || quantLetrasMin < numNecessario || quantLetrasMai < numNecessario || quantChar < numNecessario) {
+         senha = formarSenha(tamanho);
     }
 
     return senha;
   }
 
-function exibirNaTela(senha) {
-    var senha1 = "";
-    var valorDivisao = 50;
+const exibirNaTela = (senha, tamanho) => {
+    let senha1 = "";
+    let valorDivisao = 10;
 
-    senha = ajustarSenha(senha, "exibir");
+    senha = ajustarSenha(senha, 1);
 
-    if (tamanho > 50){
-      // Se a senha tem mais de 50 caracteres só são mostrados os primeiros 50 caracteres
+    if (tamanho > 10){
+      // Se a senha tem mais de 10 caracteres só são mostrados os primeiros 10 caracteres
 
-      if (senha.indexOf("&#60;")){
+      if (senha.includes("&#60;")){
       valorDivisao = definirValorDivisao(senha);
       }
 
       for(var i = 0; i < valorDivisao; i++){
         senha1 += senha[i];
-        console.log(senha[i]);
       }
       
       document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado">' + senha1 + 
       ' (...)</h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
       document.getElementById("resultado").value = senha;
-      console.log(senha1)
       }
     else {
     document.getElementById("div-resultado").innerHTML= '<h2 id="resultado" class="resultado">' + senha 
@@ -111,10 +107,56 @@ function exibirNaTela(senha) {
     }
   }
 
+const ajustarSenha = (senha, caso) => {
+
+  switch (caso) {
+    case 1:
+      for (item in senha)
+        if (item == "<"){
+          senha = senha.replace("<", "&#60;");
+          }       
+    return senha;
+    break;
+  
+    case 2:
+        for (let i = 0; i < senha.length-4; i++){
+          if (senha[i] == "&" && senha[i+1] == "#" && senha[i+2] == "6"
+          && senha[i+3] == "0" && senha[i+4] == ";"){
+            senha = senha.replace("&#60;", "<");
+          }
+        }
+      return senha;
+    break;
+    
+    default:  
+      return senha;
+      break;
+  }
+
+  }
+
+const definirValorDivisao = (senha) => {
+
+    // Se a senha tem "<" ele irá ocupar 5 espaços
+    // ja que é usado esse símbolo "&#60;"
+
+    let valorDivisao = 10;
+    
+    senha = ajustarSenha(senha, 2);
+
+    for (let i = 0; i < 10; i++) {
+      if (senha[i] == "<"){
+        valorDivisao += 4;
+      }
+    }
+    return valorDivisao;
+  }
+
 async function copiar() {
     try {
-      var senha = document.getElementById("resultado").value;
-      senha = ajustarSenha(senha, "copiar");
+      let senha = document.getElementById("resultado").value;
+
+      senha = ajustarSenha(senha, 2);
       await navigator.clipboard.writeText(senha);
       alert("Texto Copiado!")
     } catch (err) {
@@ -122,52 +164,7 @@ async function copiar() {
     }
   }
 
-function ajustarSenha(senha, tipoDaFuncao) {
-
-    if (tipoDaFuncao == "exibir") {
-      for (var i = 0; i < tamanho; i++) {
-        if (senha[i] == "<") {
-          senha = senha.replace("<", "&#60;");
-        }
-      }
-    }
-    else if (tipoDaFuncao == "copiar"){
-      console.log(senha)
-      for (var i = 0; i < tamanho-4; i++) {
-        if (senha[i] == "&" && senha[i+1] == "#" && senha[i+2] == "6" && 
-          senha[i+3] == "0" && senha[i+4] == ";") {
-          senha = senha.replace("&#60;", "<");
-        }
-      }
-    }
-
-      return senha
-  }
-
-  function definirValorDivisao(senha){
-
-    // Se é encontrado o símbolo "&#60;" a borda da divisao aumenta em 4
-    // para incluir todos esses caracteres e formar o simbolo "<" 
-    // Por exemplo se esse simbolo estiver na posição 0, 1, 2, 3, e 4
-    // o simbolo "<" vai fazer com que a frase fique com 46 letras ao invés de 50
-    // Então é adicionado mais 4 espaços para letras 
-
-    var valorDivisao = 50;
-    var indexDivisao = 50;
-
-      for (var i = 0; i < indexDivisao-4; i++){
-
-        if (senha[i] == "&" && senha[i+1] == "#" && senha[i+2] == "6" && 
-        senha[i+3] == "0" && senha[i+4] == ";") {
-          indexDivisao += 4;
-          valorDivisao += 4;
-        }
-      }
-    return valorDivisao;
-  }
-
-  
-  document.addEventListener("keypress", function (e) {
+document.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
       var btn = document.querySelector("#btn");
   
@@ -175,4 +172,3 @@ function ajustarSenha(senha, tipoDaFuncao) {
     }
   });
 
-       
