@@ -50,7 +50,11 @@ const verificador = (senha, tamanho) => {
     const letras_min = "aãbcçdefghijklmnopqrstuvwxyz";
     const letras_mai = "AÃBCÇDEFGHIJKLMNOPQRSTUVWXYZ";
     const caracteres_esp = "!#$%&*+,-./:;<=>?@^_`|~"; 
-    let quantDigitos, quantLetrasMin, quantLetrasMai, quantChar, numNecessario = 0;
+    let quantDigitos = 0;
+    let quantLetrasMin = 0;
+    let quantLetrasMai = 0
+    let quantChar = 0;
+    let numNecessario = 0;
 
     
     if (tamanho < 50) {
@@ -60,21 +64,25 @@ const verificador = (senha, tamanho) => {
     }
   
     for (var i = 0; i < tamanho; i++) {
-      if (digitos.indexOf(senha[i]) >= 0) {
+      if (digitos.includes(senha[i])) {
         quantDigitos += 1;
-      } else if (letras_min.indexOf(senha[i]) >= 0) {
+      } else if (letras_min.includes(senha[i])) {
         quantLetrasMin += 1;
-      } else if (letras_mai.indexOf(senha[i]) >= 0) {
+      } else if (letras_mai.includes(senha[i])) {
         quantLetrasMai += 1;
-      } else if (caracteres_esp.indexOf(senha[i]) >= 0) {
+      } else if (caracteres_esp.includes(senha[i])) {
         quantChar += 1;
       }
     }
-  
+
+    
+
     if (
       quantDigitos < numNecessario || quantLetrasMin < numNecessario || quantLetrasMai < numNecessario || quantChar < numNecessario) {
          senha = formarSenha(tamanho);
     }
+
+    
 
     return senha;
   }
@@ -111,10 +119,12 @@ const ajustarSenha = (senha, caso) => {
 
   switch (caso) {
     case 1:
-      for (item in senha)
-        if (item == "<"){
+      for (i in senha){
+        if (senha[i] == "<"){
           senha = senha.replace("<", "&#60;");
-          }       
+          } 
+        }
+     
     return senha;
     break;
   
