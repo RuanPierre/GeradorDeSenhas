@@ -154,12 +154,11 @@ const definirValorDivisao = (senha) => {
   let valorDivisao = 10;
 
   for (let i = 0; i < 10; i++) {
-    if (senha.includes("<")) {
+    if (senha[i] == "<") {
       valorDivisao += 4;
     }
-    else
-      break;
   }
+  console.log(valorDivisao)
   return valorDivisao;
 }
 
