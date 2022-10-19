@@ -4,9 +4,9 @@ function pegarTamanho() {
   document.getElementById("input").value = "";
 
   if (tamanho >= 1) {
-    if (tamanho <= 10000) {
+    if (tamanho <= 100000) {
       let senha = formarSenha(tamanho);
-      exibirNaTela(senha, tamanho);
+      exibirNaTela(senha);
     } else {
       document.getElementById("div-resultado").innerHTML =
         '<h2 id="resultado" class="resultado">Senha muito grande (Digite números menores que 10000)</h2>'
@@ -41,16 +41,17 @@ const formarSenha = (tamanho) => {
       senha += valor;
     }
 
-    senhaSegura = verificador(senha, tamanho);
+    senhaSegura = verificador(senha);
 
   } while (senhaSegura == false);
 
   return senha;
 }
 
-const verificador = (senha, tamanho) => {
+const verificador = (senha) => {
   // Garantia de que irá ter ao menos um caractere de cada tipo, proporcionando uma senha mais segura //
 
+  let tamanho = senha.length;
   const digitos = "0123456789";
   const letras_min = "aãbcçdefghijklmnopqrstuvwxyz";
   const letras_mai = "AÃBCÇDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -60,6 +61,7 @@ const verificador = (senha, tamanho) => {
   let quantLetrasMai = 0
   let quantChar = 0;
   let numNecessario = 0;
+
 
 
   if (tamanho < 50) {
@@ -78,95 +80,53 @@ const verificador = (senha, tamanho) => {
     } else if (caracteres_esp.includes(senha[i])) {
       quantChar += 1;
     }
+    if (
+      quantDigitos >= numNecessario && quantLetrasMin >= numNecessario && quantLetrasMai >= numNecessario && quantChar >= numNecessario)
+      return true;
   }
-
-
-
-  if (
-    quantDigitos < numNecessario || quantLetrasMin < numNecessario || quantLetrasMai < numNecessario || quantChar < numNecessario)
-    return false;
-  else
-    return true;
+  return false;
 }
 
-const exibirNaTela = (senha, tamanho) => {
+const exibirNaTela = (senha) => {
   let senhaDisplay = "";
-  let valorDivisao;
 
-  valorDivisao = definirValorDivisao(senha); // define qual o numero de iterações para pegar os 10 primeiros caracteres da senha
-  senha = ajustarSenha(senha, 1);
-
-  if (tamanho > 10) {
+  if (senha.length > 10) {
     // Se a senha tem mais de 10 caracteres só são mostrados os primeiros 10 caracteres
-
-    for (var i = 0; i < valorDivisao; i++) {
+    for (var i = 0; i < 10; i++) {
       senhaDisplay += senha[i];
     }
-
-    document.getElementById("div-resultado").innerHTML = '<h2 id="resultado" class="resultado">' + senhaDisplay +
-      ' (...)</h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
+    senhaDisplay += " (...)"
   }
   else {
-    document.getElementById("div-resultado").innerHTML = '<h2 id="resultado" class="resultado">' + senha
-      + '</h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
+    senhaDisplay = senha;
   }
+
+  senhaDisplay = ajustarSenha(senhaDisplay);
+
+  document.getElementById("div-resultado").innerHTML = '<h2 id="resultado" class="resultado">' + senhaDisplay +
+    '</h2><button id="btn-copy" onclick="copiar()"><img src="img/copy.svg" alt="copiar"></button>'
   document.getElementById("resultado").value = senha;
-}
-
-const ajustarSenha = (senha, caso) => {
-
-  switch (caso) {
-    case 1:
-      for (i in senha) {
-        if (senha.includes("<")) {
-          senha = senha.replace("<", "&#60;");
-        }
-        else
-          break;
-      }
-
-      return senha;
-      break;
-
-    case 2:
-      for (i in senha) {
-        if (senha.includes("&#60;")) {
-          senha = senha.replace("&#60;", "<");
-        }
-        else
-          break
-      }
-      return senha;
-      break;
-
-    default:
-      return senha;
-      break;
-  }
 
 }
 
-const definirValorDivisao = (senha) => {
+const ajustarSenha = (senha) => {
 
-  // Se a senha tem "<" ele tem que pegar mais 4 espaços
-  // ja que é usado esse símbolo "&#60;"
-
-  let valorDivisao = 10;
-
-  for (let i = 0; i < 10; i++) {
-    if (senha[i] == "<") {
-      valorDivisao += 4;
+  for (i in senha) {
+    if (senha.includes("<")) {
+      senha = senha.replace("<", "&#60;");
     }
+    else
+      break;
   }
-  console.log(valorDivisao)
-  return valorDivisao;
+
+  return senha;
+
 }
+
 
 async function copiar() {
   try {
     let senha = document.getElementById("resultado").value;
-
-    senha = ajustarSenha(senha, 2);
     await navigator.clipboard.writeText(senha);
     alert("Texto Copiado!")
   } catch (err) {
@@ -181,4 +141,3 @@ document.addEventListener("keypress", function (e) {
     btn.click();
   }
 });
-
